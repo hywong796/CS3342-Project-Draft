@@ -1,0 +1,9 @@
+{
+    "java.configuration.runtimes": [
+        {
+        "name": "JavaSE-25",
+        "path": "C:\\Users\\harri\\scoop\\apps\\openjdk\\current",
+        "default": true
+    }
+    ]
+}
