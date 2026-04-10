@@ -162,8 +162,8 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
         else if (Validation.nullOrEmpty(targetInfoField, newValue)) return false;
 
         return targetRecord.setField(targetInfoField, newValue);
-
     }
+    
     //removeRecord() - To-Do: 
     public boolean removeRecord (BookRecord targetRecord) {
         if (Validation.nullOrEmpty(targetRecord)) return false;
