@@ -1,9 +1,11 @@
 package utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import data.Fields;
-import data.Library.LibraryFields;
 import utilities.FilterService.Filter.FilterFields;
 import data.AccessibleRecord;
 
@@ -112,6 +114,7 @@ public class FilterService {
                     case VALUE -> setValue(newValue);
                     case STATE -> {
                         System.out.println("State cannot be changed");
+                        return false;
                     }
                 }
                 return true;
@@ -138,35 +141,68 @@ public class FilterService {
             state = Filter.State.FIRST;
         }
 
-        return filterCollection.add(new Filter<>(field, value, state, filterCollection.size() + 1));
+        return filterCollection.add(new Filter<F>(filterCollection.size() + 1, field, value, state));
     }
 
-    public static <F extends Fields> boolean editFilter(ArrayList<Filter<F>> filterCollection, FilterFields FieldToEdit, Object newValue){
+    public static <F extends Fields> boolean editFilter(ArrayList<Filter<F>> filterCollection,Filter<F> filterToEdit, FilterFields fieldToEdit, Object newValue){
         if (Validation.nullOrEmpty(filterCollection)) return false;
-        if (Validation.nullOrEmpty(FieldToEdit)) return false;
+        if (Validation.nullOrEmpty(filterToEdit)) return false;
+        if (Validation.nullOrEmpty(fieldToEdit)) return false;
         if (Validation.nullOrEmpty(newValue)) return false;
 
-        if (FieldToEdit.isValidValue(newValue)) {
-            return filterCollection.
+        if (fieldToEdit.isValidValue(newValue)) {
+            for (Filter<F> target : filterCollection) {
+                if (target == filterToEdit) {
+                    return target.setField(fieldToEdit, newValue);
+                }
+            }
         }
+        return false;
     };
-    public static <F extends Fields> boolean removeFilter (){};
-    public static <F extends Fields> boolean cleanFilterList(){};
 
-    public static <F extends Fields, T extends AccessibleRecord<F>> ArrayList<T> filterAll(
-            ArrayList<T> collection, ArrayList<Filter<F>> filters) {
+    public static <F extends Fields> boolean removeFilter(ArrayList<Filter<F>> filterCollection, ArrayList<Filter<F>> filtersToRemove){
+        if (Validation.nullOrEmpty(filterCollection)) return false;
+        if (Validation.nullOrEmpty(filtersToRemove)) return false;
+
+        return filterCollection.removeAll(filtersToRemove);
+    };
+    public static <F extends Fields> boolean cleanFilterList(ArrayList<Filter<F>> filterCollection){
+        if (Validation.nullOrEmpty(filterCollection)) return false;
+        filterCollection.clear();
+        return true;
+    };
+
+    public static <F extends Fields, T extends AccessibleRecord<F>> ArrayList<T> filterAll(ArrayList<T> collection, ArrayList<Filter<F>> filters) {
         ArrayList<T> result = new ArrayList<>();
+        
+        if (Validation.nullOrEmpty(collection)) return new ArrayList<>();
+        if (Validation.nullOrEmpty(filters)) return new ArrayList<>(collection);
 
         for (Filter<F> filter : filters) {
             switch (filter.getState()) {
                 case FIRST -> {
-                    
+                    List<T> outList = 
+                        collection.stream()
+                        .filter(target -> 
+                            filter.getValue().equals(target.getField(filter.getField()))  
+                        )
+                        .collect(Collectors.toList());
+
+                        result.addAll(outList);
                 }
                 case AND -> {
-
+                    result.stream()
+                        .filter(target -> 
+                                filter.getValue().equals(target.getField(filter.getField()))  
+                            )
+                        .collect(Collectors.toCollection(ArrayList::new));
                 }
                 case OR -> {
-
+                    List<T> outList = collection.stream()
+                        .filter(target -> filter.getValue().equals(target.getField(filter.getField())))
+                        .filter(target -> !result.contains(target))
+                        .collect(Collectors.toList());
+                    result.addAll(outList);
                 }
             }
         }
