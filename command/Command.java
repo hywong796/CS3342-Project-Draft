@@ -1,4 +1,4 @@
 package command;
-public class Command {
-    
+interface Command {
+    void execute (String[] commandParts);
 }
