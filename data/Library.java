@@ -14,6 +14,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
 
     //field
     public enum LibraryFields implements Fields {
+        LIBRARY_ID (String.class),
         NAME (String.class),
         ADDRESS (String.class),
         PHONE (String.class),
@@ -44,6 +45,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     }
 
     //info
+    private String libraryID;
     private String name;
     private String address;
     private String phone;
@@ -55,7 +57,8 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
 
 
     //constructor
-    public Library(String name, String address, String phone, String email){
+    public Library(String libraryID, String name, String address, String phone, String email){
+        this.libraryID = libraryID;
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -63,6 +66,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     }
 
     //getters
+    public String getLibraryID() {return libraryID;}
     public String getName() {return name;}
     public String getAddress() {return address;}
     public String getPhone() {return phone;}
@@ -72,6 +76,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     public Object getField(String targetField) {
         if (LibraryFields.isValidField(targetField)) {
             return switch ((LibraryFields.matchField(targetField)).get()) {
+                case LIBRARY_ID -> getLibraryID();
                 case NAME -> getName();
                 case ADDRESS -> getAddress();
                 case PHONE -> getPhone();
@@ -86,6 +91,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     @Override
     public Object getField(LibraryFields targetField) {
         return switch (targetField) {
+            case LIBRARY_ID -> getLibraryID();
             case NAME -> getName();
             case ADDRESS -> getAddress();
             case PHONE -> getPhone();
@@ -94,6 +100,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     } 
 
     //setters
+    public void setLibraryID(String libraryID) {this.libraryID = libraryID;}
     public void setName(String name) {this.name = name;}
     public void setAddress(String address) {this.address = address;}
     public void setPhone(String phone) {this.phone = phone;}
@@ -102,6 +109,7 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     public boolean setField (LibraryFields targetField, Object newValue) {
         if (targetField.isValidValue(newValue)) {
             switch (targetField) {
+                case LIBRARY_ID -> setLibraryID((String) newValue);
                 case NAME -> setName((String) newValue);
                 case ADDRESS -> setAddress((String) newValue);
                 case PHONE ->  setPhone((String) newValue);
@@ -154,8 +162,8 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
         else if (Validation.nullOrEmpty(targetInfoField, newValue)) return false;
 
         return targetRecord.setField(targetInfoField, newValue);
-
     }
+    
     //removeRecord() - To-Do: 
     public boolean removeRecord (BookRecord targetRecord) {
         if (Validation.nullOrEmpty(targetRecord)) return false;
