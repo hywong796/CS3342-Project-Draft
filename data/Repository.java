@@ -1,13 +1,13 @@
+package data;
+
 import java.util.ArrayList;
 
-import data.Library;
-import data.BookRecord;
-import data.BookCopy;
 /* 
 role:
 read files
 load data into files
 */
+@SuppressWarnings("unused")
 public class Repository {
     private static ArrayList<Library> LibraryData;
     private static ArrayList<BookRecord> BookRecordData;
