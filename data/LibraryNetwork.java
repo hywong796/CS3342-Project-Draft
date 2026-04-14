@@ -28,6 +28,11 @@ public class LibraryNetwork {
         if (Validation.nullOrEmpty(address)) return false;
         if (Validation.nullOrEmpty(email)) return false;
 
+        //ensure Libraries is initialized
+        if (Libraries == null) {
+            Libraries = new ArrayList<>();
+        }
+
         //duplication check
         if (searchSingle(Libraries, Library.LibraryFields.LIBRARY_ID, libraryID).isPresent()) return false;
 
@@ -51,5 +56,7 @@ public class LibraryNetwork {
     }
 
     //load data
+    
+    //store data
 }
  

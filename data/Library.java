@@ -71,6 +71,8 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     public String getAddress() {return address;}
     public String getPhone() {return phone;}
     public String getEmail() {return email;}
+    public ArrayList<BookCopy> getBookCopyCollection() {return bookCopyCollection;}
+    public ArrayList<BookRecord> getBookRecordCollection() {return bookRecordCollection;}
 
     @Override
     public Object getField(String targetField) {
@@ -105,6 +107,8 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     public void setAddress(String address) {this.address = address;}
     public void setPhone(String phone) {this.phone = phone;}
     public void setEmail(String email) {this.email = email;}
+    public void setBookCopyCollection(ArrayList<BookCopy> bookCopyCollection) {this.bookCopyCollection = bookCopyCollection;}
+    public void setBookRecordCollection(ArrayList<BookRecord> bookRecordCollection) {this.bookRecordCollection = bookRecordCollection;}
 
     public boolean setField (LibraryFields targetField, Object newValue) {
         if (targetField.isValidValue(newValue)) {
@@ -130,6 +134,16 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     //book record management:
 
     //addRecord() -To-Do: 
+    public boolean addRecord(BookRecord record) {
+        if (Validation.nullOrEmpty(record)) return false;
+
+        if (Searching.searchSingle(bookRecordCollection, BookRecord.RecordFields.ISBN, record.getIsbn()).isPresent()) {
+            return false; 
+        }
+
+        return bookRecordCollection.add(record);
+    }
+
     public boolean addRecord(
         String isbn, 
         String title, String author, String language, String category, Year publishingYear

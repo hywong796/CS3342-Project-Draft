@@ -9,7 +9,7 @@ import java.util.Optional;
 public class Validation {
     public static boolean nullOrEmpty (Object value) {
 
-        boolean isEmpty;
+        boolean isEmpty = false;
 
         if (value == null){
             isEmpty = true;
@@ -23,7 +23,8 @@ public class Validation {
         else if (value instanceof Collection<?> collection) {
             isEmpty = collection.isEmpty();
         }
-        isEmpty = false;
+
+
 
         if (isEmpty) {
             System.out.println("Detects Null or blank value.");
@@ -34,7 +35,7 @@ public class Validation {
 
     public static <F extends Fields> boolean nullOrEmpty (F targetField, Object value) {
 
-        boolean isEmpty;
+        boolean isEmpty = false;
 
         if (value == null){
             isEmpty = true;
@@ -48,7 +49,8 @@ public class Validation {
         else if (value instanceof Collection<?> collection) {
             isEmpty = collection.isEmpty();
         }
-        isEmpty = false;
+
+
 
         if (isEmpty) {
             StringBuilder outMessage = new StringBuilder();

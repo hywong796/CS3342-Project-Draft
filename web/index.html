@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMART SYSTEM Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <main class="page">
+    <section id="login-page" class="login-page">
+      <div class="login-card">
+        <p class="eyebrow">SMART SYSTEM</p>
+        <h1>Library Login</h1>
+        <p class="sub">Use any ID/password for User Portal. Use <b>admin</b>/<b>admin</b> for Admin Portal.</p>
+
+        <form id="login-form" class="form-grid">
+          <label>User ID
+            <input id="login-id" type="text" placeholder="Enter your ID" required />
+          </label>
+          <label>Password
+            <input id="login-password" type="password" placeholder="Enter password" required />
+          </label>
+          <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="portal-page" class="hidden">
+      <header class="topbar panel">
+        <div>
+          <p class="eyebrow dark">SMART SYSTEM</p>
+          <h2 id="portal-title">Portal</h2>
+        </div>
+        <div class="topbar-actions">
+          <span id="login-badge" class="badge">USER</span>
+          <button id="logout-button" class="btn btn-secondary" type="button">Logout</button>
+        </div>
+      </header>
+
+      <section id="admin-portal" class="hidden">
+        <section class="panel">
+          <h3>Admin Operations</h3>
+          <div class="grid two-col">
+            <form id="record-form" class="panel form-grid mini">
+              <h4>Add Book Record</h4>
+              <label>ISBN<input id="record-isbn" type="text" required /></label>
+              <label>Title<input id="record-title" type="text" required /></label>
+              <label>Author<input id="record-author" type="text" required /></label>
+              <label>Language<input id="record-language" type="text" value="English" required /></label>
+              <label>Category<input id="record-category" type="text" required /></label>
+              <label>Publishing Year<input id="record-year" type="number" min="1800" max="2100" value="2024" required /></label>
+              <button class="btn btn-primary" type="submit">Create Record</button>
+            </form>
+
+            <form id="copy-form" class="panel form-grid mini">
+              <h4>Add Book Copy</h4>
+              <label>ISBN<input id="copy-isbn" type="text" required /></label>
+              <label>Acquisition Date<input id="copy-date" type="date" required /></label>
+              <label>Price<input id="copy-price" type="number" min="0" step="0.01" value="10.00" required /></label>
+              <button class="btn btn-primary" type="submit">Add Copy</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Circulation Control</h3>
+          <div class="grid two-col">
+            <div class="form-grid mini">
+              <label>Copy ID<input id="borrow-copy-id" type="text" /></label>
+              <label>Borrower ID<input id="borrower-id" type="text" /></label>
+              <button id="borrow-button" class="btn btn-primary" type="button">Borrow Copy</button>
+              <button id="return-button" class="btn btn-secondary" type="button">Return Copy</button>
+            </div>
+            <div class="form-grid mini">
+              <label>Search<input id="search-input" type="text" placeholder="ISBN, title, author" /></label>
+              <button id="search-button" class="btn btn-secondary" type="button">Search</button>
+              <button id="refresh-button" class="btn btn-secondary" type="button">Refresh</button>
+              <button id="export-button" class="btn btn-secondary" type="button">Export Snapshot</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="user-portal" class="hidden">
+        <section class="panel">
+          <h3>User Actions</h3>
+          <div class="grid two-col">
+            <div class="form-grid mini">
+              <label>Search Catalog<input id="user-search-input" type="text" placeholder="ISBN, title, author" /></label>
+              <button id="user-search-button" class="btn btn-secondary" type="button">Search</button>
+            </div>
+            <div class="form-grid mini">
+              <label>User ID<input id="user-id" type="text" placeholder="Your ID" /></label>
+              <label>Copy ID<input id="user-copy-id" type="text" placeholder="Copy to borrow" /></label>
+              <button id="user-borrow-button" class="btn btn-primary" type="button">Request Borrow</button>
+              <button id="user-renew-button" class="btn btn-secondary" type="button">Request Renew</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel">
+        <h3>Book Records</h3>
+        <div class="table-wrap">
+          <table id="record-table">
+            <thead><tr><th>ISBN</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>Available</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Book Copies</h3>
+        <div class="table-wrap">
+          <table id="copy-table">
+            <thead><tr><th>Copy ID</th><th>ISBN</th><th>Date</th><th>Price</th><th>Status</th><th>Borrower</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

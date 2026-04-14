@@ -1,11 +1,16 @@
+package main;
 import data.BookCopy;
 import data.BookRecord;
 import data.Library;
 import java.util.*;
 
 import command.AddData;
+import command.BorrowCopy;
+import command.ListingData;
 import command.RecordedCommand;
 import command.RemoveData;
+import command.ReturnCopy;
+import command.SearchingData;
 
 public class Main {
     private static Library currentLibrary;
@@ -21,10 +26,12 @@ public class Main {
     private void run() {
         in = new Scanner(System.in);
         //start by loading data from files
+        data.Repository.loadFromFiles();
         boolean running = true;
         while (running) {
-            System.out.println("If you are user, please type 1; Otherwise, please type 2");
+            System.out.print("If you are user, please type 1; Otherwise, please type 2: ");
             int userCode = in.nextInt();
+            System.out.println();
             if (!(userCode == 1 || userCode == 2)) {
                 System.out.println("Invalid user type, please type again");
             }
@@ -35,22 +42,40 @@ public class Main {
                     String userCommand = in.nextLine();
                     if (userCommand.isEmpty() || userCommand.isBlank()) continue;
                     String[] commandParts = userCommand.split(" ");
-                    switch (commandParts[0]) {
+                    switch (commandParts[0].toUpperCase()) {
                         //command handling block
-                        case "add" -> {
+                        case "ADD" -> {
                             (new AddData()).execute(commandParts);
                         }
-                        case "remove" -> {
-                            if (currentLibrary == null && commandParts[1] == "Library") continue;
-                            (new RemoveData(currentLibrary)).execute(commandParts);
+                        case "EDIT" -> {
+                            continue;
                         }
-                        case "undo" -> {
+                        case "REMOVE" -> {
+                            continue;
+                        }
+                        case "BORROW" -> {
+                            (new BorrowCopy()).execute(commandParts);;
+                        }
+                        case "RETURN" -> {
+                            (new ReturnCopy()).execute(commandParts);
+                        }
+                        case "SEARCH" -> {
+                            (new SearchingData()).execute(commandParts);;
+                        }
+                        case "SORT" -> {
+                            continue;
+                        }
+                        case "LIST" -> {
+                            (new ListingData()).execute(commandParts);;
+                        }
+                        case "UNDO" -> {
                             RecordedCommand.undoOneCommand();
                         }
-                        case "redo" -> {
+                        case "REDO" -> {
                             RecordedCommand.redoOneCommand();
                         }
-                        case "exit" -> {
+                        case "EXIT" -> {
+                            data.Repository.storeToFiles();
                             innerLoop = false;
                             running = false;
                         }

@@ -1,7 +1,11 @@
 package command;
 
+import main.Main;
 import data.Library;
+import data.Library.LibraryFields;
 import data.LibraryNetwork;
+import utilities.Searching;
+
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.Optional;
@@ -10,6 +14,7 @@ import java.util.Scanner;
 public class AddData extends RecordedCommand {
     
     private static Scanner scanner = new Scanner(System.in);
+    private static Library targetLibrary = Main.getCurrentLibrary();
     private static LibraryNetwork libraryNetwork = new LibraryNetwork();
 
     @Override
@@ -28,16 +33,24 @@ public class AddData extends RecordedCommand {
     }
 
     private void addCopy() {
+        if (LibraryNetwork.getInstance().isEmpty()) {
+            System.out.println("No library exists!");
+            return;
+        }
         System.out.println("=== Add Book Copy ===");
         
         // Get Library ID
-        System.out.print("Enter Library ID: ");
-        String libraryID = scanner.nextLine().trim();
-        
-        Optional<Library> targetLibrary = findLibraryByID(libraryID);
-        if (targetLibrary.isEmpty()) {
-            System.out.println("Library not found with ID: " + libraryID);
-            return;
+        if (targetLibrary == null) {
+
+            System.out.print("Enter Library ID: ");
+            String libraryID = scanner.nextLine().trim().toUpperCase();
+
+            Optional<Library> foundLibrary = Searching.searchSingle(LibraryNetwork.getInstance(), LibraryFields.LIBRARY_ID, libraryID);
+            if (foundLibrary.isEmpty()) {
+                System.out.println("Library not found with ID: " + libraryID);
+                return;
+            }
+            targetLibrary = foundLibrary.get();
         }
         
         // Get ISBN
@@ -66,7 +79,7 @@ public class AddData extends RecordedCommand {
         }
         
         // Add the copy
-        if (targetLibrary.get().addCopy(isbn, acquisitionDate, acquisitionPrice)) {
+        if (targetLibrary.addCopy(isbn, acquisitionDate, acquisitionPrice)) {
             System.out.println("Book copy added successfully!");
             addUndoCommand(this);
             clearRedoList();
@@ -76,6 +89,11 @@ public class AddData extends RecordedCommand {
     }
 
     private void addRecord() {
+        if (LibraryNetwork.getInstance().isEmpty()) {
+            System.out.println("No library exists!");
+            return;
+        }
+
         System.out.println("=== Add Book Record ===");
         
         // Get Library ID

@@ -190,12 +190,14 @@ public class FilterService {
 
                         result.addAll(outList);
                 }
-                case AND -> {
-                    result.stream()
+                case AND -> {                    
+                    List<T> toKeep = result.stream()
                         .filter(target -> 
                                 filter.getValue().equals(target.getField(filter.getField()))  
                             )
                         .collect(Collectors.toCollection(ArrayList::new));
+                    result.clear();
+                    result.addAll(toKeep);
                 }
                 case OR -> {
                     List<T> outList = collection.stream()
