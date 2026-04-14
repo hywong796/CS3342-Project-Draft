@@ -8,9 +8,9 @@ import command.AddData;
 import command.BorrowCopy;
 import command.ListingData;
 import command.RecordedCommand;
-import command.RemoveData;
 import command.ReturnCopy;
 import command.SearchingData;
+import command.SelectCurrent;
 
 public class Main {
     private static Library currentLibrary;
@@ -54,19 +54,22 @@ public class Main {
                             continue;
                         }
                         case "BORROW" -> {
-                            (new BorrowCopy()).execute(commandParts);;
+                            (new BorrowCopy()).execute(commandParts);
                         }
                         case "RETURN" -> {
                             (new ReturnCopy()).execute(commandParts);
                         }
                         case "SEARCH" -> {
-                            (new SearchingData()).execute(commandParts);;
+                            (new SearchingData()).execute(commandParts);
                         }
                         case "SORT" -> {
                             continue;
                         }
                         case "LIST" -> {
-                            (new ListingData()).execute(commandParts);;
+                            (new ListingData()).execute(commandParts);
+                        }
+                        case "SELECT" -> {
+                            (new SelectCurrent()).execute(commandParts);
                         }
                         case "UNDO" -> {
                             RecordedCommand.undoOneCommand();

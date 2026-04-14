@@ -287,7 +287,15 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder();
-        //to be implemented
+        out.append("Library{");
+        out.append("ID='").append(libraryID).append("'");
+        out.append(", Name='").append(name).append("'");
+        out.append(", Address='").append(address).append("'");
+        out.append(", Phone='").append(phone).append("'");
+        out.append(", Email='").append(email).append("'");
+        out.append(", BookRecords=").append(bookRecordCollection.size());
+        out.append(", BookCopies=").append(bookCopyCollection.size());
+        out.append("}");
         return out.toString();
     }
 

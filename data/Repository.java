@@ -13,9 +13,9 @@ public class Repository {
     private static ArrayList<BookRecord> BookRecordData = new ArrayList<>();
     private static ArrayList<BookCopy> BookCopyData = new ArrayList<>();
 
-    private static String LIB_FILE = "library.txt";
-    private static String RECORD_FILE = "bookRecord.txt";
-    private static String COPY_FILE = "bookCopy.txt"; 
+    private static String LIB_FILE = "txt/library.txt";
+    private static String RECORD_FILE = "txt/bookRecord.txt";
+    private static String COPY_FILE = "txt/bookCopy.txt"; 
 
     //getters
     public static ArrayList<Library> getLibraryData() {
