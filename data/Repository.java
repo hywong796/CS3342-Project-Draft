@@ -40,12 +40,12 @@ public class Repository {
     }
 
     public static void storeToFiles() {
-        // 1. 存圖書館
+        // 1. Get all libraries from LibraryNetwork
         LibraryData = LibraryNetwork.getInstance();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(LIB_FILE))) {
             
-            for (Library lib:LibraryData){
+            for (Library lib : LibraryData) {
                 writer.write(lib.getLibraryID() + "|"+
                 lib.getName() + "|"+
                 lib.getAddress() + "|"+
@@ -54,14 +54,14 @@ public class Repository {
                 writer.newLine();
             }
             System.out.println("✅ LIBRARY STORATION SUCCESS!!!");
-        }catch (Exception e){
-            System.out.println("❌ FUCK, HERE WE GO AGAIN (Library): "+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ FUCK, HERE WE GO AGAIN (Library): " + e.getMessage());
         }
 
-        // 2. 存書籍目錄
+        // 2. Store book records
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(RECORD_FILE))) {
             for (Library lib : LibraryData) {
-                for (BookRecord record : getBookRecordData()) {
+                for (BookRecord record : lib.getBookRecordCollection()) {
                     writer.write(
                         record.getOwner() + "|" +
                         record.getIsbn() + "|" +
@@ -82,17 +82,61 @@ public class Repository {
         } catch (IOException e) {
             System.out.println("❌ FAIL TO STORE THE BOOK: " + e.getMessage());
         }
+
+        // 3. Store book copies
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(COPY_FILE))) {
+            for (Library lib : LibraryData) {
+                for (BookCopy copy : lib.getBookCopyCollection()) {
+                    // For copies that are AVAILABLE and haven't been borrowed, use the simple format
+                    if (copy.getStatus() == BookCopy.Status.AVAILABLE && copy.getBorrowCounter() == 0) {
+                        writer.write(
+                            copy.getOwner() + "|" +
+                            copy.getIsbn() + "|" +
+                            copy.getCopyID() + "|" +
+                            copy.getAcquisitionDate() + "|" +
+                            copy.getAcquisitionPrice()
+                        );
+                    } else {
+                        // For all other copies, store the full format
+                        writer.write(
+                            copy.getOwner() + "|" +
+                            copy.getIsbn() + "|" +
+                            copy.getCopyID() + "|" +
+                            copy.getAcquisitionDate() + "|" +
+                            copy.getAcquisitionPrice() + "|" +
+                            copy.getStatus() + "|" +
+                            copy.getBorrowerID() + "|" +
+                            copy.getLastBorrowingDate() + "|" +
+                            copy.getBorrowCounter()
+                        );
+                    }
+                    writer.newLine();
+                }
+            }
+            System.out.println("✅ COPY STORATION SUCCESS！");
+        } catch (IOException e) {
+            System.out.println("❌ FAIL TO STORE THE COPY: " + e.getMessage());
+        }
     }
 
     public static void loadFromFiles() {
-        // 1. 讀取圖書館資料 (呼叫底下的輔助方法即可，不需要重複寫程式碼)
+        // 1. Load libraries from file
         loadLibraryHelper(); 
+        
+        // Initialize LibraryNetwork with loaded library data
+        LibraryNetwork.createInstance(LibraryData);
 
-        // 2. 讀取書籍目錄
-        File recordFile = new File(RECORD_FILE); // 💡 修正 1：變數改名為 recordFile 避免重複
+        // 2. Load book records
+        loadBookRecordsHelper();
+        
+        // 3. Load book copies
+        loadBookCopiesHelper();
+    }
+
+    private static void loadBookRecordsHelper() {
+        File recordFile = new File(RECORD_FILE);
         if (!recordFile.exists()) return;
 
-        BookRecordData.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(recordFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -100,29 +144,89 @@ public class Repository {
                 if (p.length == 11) {
                     BookRecord record = new BookRecord(
                         p[0], p[1], p[2], p[3], p[4], p[5], 
-                        java.time.Year.parse(p[6]), //
-                        Integer.parseInt(p[7]),     // borrowCount
-                        Integer.parseInt(p[8]),     // copyCounter
-                        Integer.parseInt(p[9]),     // totalCopies
-                        Integer.parseInt(p[10])     // availableCopies
+                        java.time.Year.parse(p[6]),
+                        Integer.parseInt(p[7]),
+                        Integer.parseInt(p[8]),
+                        Integer.parseInt(p[9]),
+                        Integer.parseInt(p[10])
                     );
-                    BookRecordData.add(record);
                     
+                    // Add record to the corresponding library
                     LibraryNetwork.getInstance().stream()
                         .filter(lib -> lib.getLibraryID().equals(p[0]))
                         .findFirst()
-                        .ifPresent(lib -> lib.addRecord(record)); // 
+                        .ifPresent(lib -> lib.addRecord(record));
                 }
             }
-            System.out.println("✅success to load！");
+            System.out.println("✅ Book records loaded successfully！");
         } catch (Exception e) {
-            System.out.println("❌Book fail to load: " + e.getMessage());
+            System.out.println("❌ Book records failed to load: " + e.getMessage());
+        }
+    }
+
+    private static void loadBookCopiesHelper() {
+        File copyFile = new File(COPY_FILE);
+        if (!copyFile.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(copyFile))) {
+            String lineContent;
+            while ((lineContent = reader.readLine()) != null) {
+                final String line = lineContent;
+                String[] p = line.split("\\|");
+                if (p.length >= 5) {
+                    // Find the library and add the copy
+                    LibraryNetwork.getInstance().stream()
+                        .filter(lib -> lib.getLibraryID().equals(p[0]))
+                        .findFirst()
+                        .ifPresent(lib -> {
+                            try {
+                                BookCopy copy;
+                                
+                                // Check if this copy has been borrowed (status is AVAILABLE initially)
+                                if (p.length == 5) {
+                                    // Simple constructor for copies that haven't been borrowed
+                                    copy = new BookCopy(
+                                        p[0],                                    // owner
+                                        p[1],                                    // isbn
+                                        p[2],                                    // copyID
+                                        java.time.LocalDate.parse(p[3]),        // acquisitionDate
+                                        Double.parseDouble(p[4])                // acquisitionPrice
+                                    );
+                                } else if (p.length == 9) {
+                                    // Full constructor with all fields
+                                    copy = new BookCopy(
+                                        p[0],                                    // owner
+                                        p[1],                                    // isbn
+                                        p[2],                                    // copyID
+                                        java.time.LocalDate.parse(p[3]),        // acquisitionDate
+                                        Double.parseDouble(p[4]),               // acquisitionPrice
+                                        BookCopy.Status.valueOf(p[5]),          // status
+                                        p[6].equals("null") ? null : p[6],      // borrowerID
+                                        p[7].equals("null") ? null : java.time.LocalDate.parse(p[7]),  // lastBorrowingDate
+                                        Integer.parseInt(p[8])                   // borrowCounter
+                                    );
+                                } else {
+                                    System.out.println("⚠️ Skipping malformed copy record: " + line);
+                                    return;
+                                }
+                                
+                                lib.getBookCopyCollection().add(copy);
+                            } catch (Exception e) {
+                                System.out.println("❌ Error adding book copy: " + e.getMessage());
+                            }
+                        });
+                }
+            }
+            System.out.println("✅ Book copies loaded successfully！");
+        } catch (Exception e) {
+            System.out.println("❌ Book copies failed to load: " + e.getMessage());
         }
     }
 
     private static void loadLibraryHelper() {
         File file = new File(LIB_FILE);
         if (!file.exists()) return;
+        
         LibraryData.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -133,10 +237,9 @@ public class Repository {
                     LibraryData.add(lib);
                 }
             }
-            LibraryNetwork.getInstance().clear();
-            LibraryNetwork.getInstance().addAll(LibraryData);
+            System.out.println("✅ Libraries loaded successfully！");
         } catch (IOException e) { 
-            System.out.println("❌Library load fail: " + e.getMessage());
+            System.out.println("❌ Library load failed: " + e.getMessage());
         }
     }
 }

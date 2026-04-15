@@ -7,35 +7,36 @@ import java.util.*;
 
 public class Sorting {
 
-    interface SortRules<T> {
+    public interface SortRules<T> {
         Comparator<T> getComparator();
     }
 
     // BookRecord sorting rules
-    enum BookRecordSortRules implements SortRules<BookRecord> {
-        ISBN, TITLE, AUTHOR, LANGUAGE, CATEGORY, PUBLISHING_YEAR;
+    public enum BookRecordSortRules implements SortRules<BookRecord> {
+        ISBN, TITLE, AUTHOR, LANGUAGE, CATEGORY, PUBLISHING_YEAR, OWNER;
 
         @Override
         public Comparator<BookRecord> getComparator() {
             return switch (this) {
+                case OWNER -> Comparator.comparing(BookRecord::getOwner);
                 case ISBN -> Comparator.comparing(BookRecord::getIsbn);
                 case TITLE -> Comparator.comparing(BookRecord::getTitle);
                 case AUTHOR -> Comparator.comparing(BookRecord::getAuthor);
                 case LANGUAGE -> Comparator.comparing(BookRecord::getLanguage);
                 case CATEGORY -> Comparator.comparing(BookRecord::getCategory);
-                case PUBLISHING_YEAR -> Comparator.comparing(BookRecord::getPublishingYear,
-                        Comparator.nullsLast(Comparator.naturalOrder()));
+                case PUBLISHING_YEAR -> Comparator.comparing(BookRecord::getPublishingYear,Comparator.nullsLast(Comparator.naturalOrder()));
             };
         }
     }
 
     // BookCopy sorting rules
-    enum BookCopySortRules implements SortRules<BookCopy> {
-        ISBN, COPYID, ACQUISITION_DATE, ACQUISITION_PRICE;
+    public enum BookCopySortRules implements SortRules<BookCopy> {
+        ISBN, COPYID, ACQUISITION_DATE, ACQUISITION_PRICE, OWNER;
 
         @Override
         public Comparator<BookCopy> getComparator() {
             return switch (this) {
+                case OWNER -> Comparator.comparing(BookCopy::getOwner);
                 case ISBN -> Comparator.comparing(BookCopy::getIsbn);
                 case COPYID -> Comparator.comparing(BookCopy::getCopyID);
                 case ACQUISITION_DATE -> Comparator.comparing(BookCopy::getAcquisitionDate);
@@ -45,12 +46,13 @@ public class Sorting {
     }
 
     // Library sorting rules
-    enum LibrarySortRules implements SortRules<Library> {
-        NAME, ADDRESS, PHONE, EMAIL;
+    public enum LibrarySortRules implements SortRules<Library> {
+        NAME, ADDRESS, PHONE, EMAIL, LIBRARY_ID;
 
         @Override
         public Comparator<Library> getComparator() {
             return switch (this) {
+                case LIBRARY_ID -> Comparator.comparing(Library::getLibraryID);
                 case NAME -> Comparator.comparing(Library::getName);
                 case ADDRESS -> Comparator.comparing(Library::getAddress);
                 case PHONE -> Comparator.comparing(Library::getPhone);

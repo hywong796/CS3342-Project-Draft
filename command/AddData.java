@@ -8,13 +8,13 @@ import utilities.Searching;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class AddData extends RecordedCommand {
     
     private static Scanner scanner = new Scanner(System.in);
-    private static Library targetLibrary = Main.getCurrentLibrary();
     private static LibraryNetwork libraryNetwork = new LibraryNetwork();
 
     @Override
@@ -39,9 +39,9 @@ public class AddData extends RecordedCommand {
         }
         System.out.println("=== Add Book Copy ===");
         
-        // Get Library ID
-        if (targetLibrary == null) {
-
+        // Get current library
+        Library currentLib = Main.getCurrentLibrary();
+        if (currentLib == null) {
             System.out.print("Enter Library ID: ");
             String libraryID = scanner.nextLine().trim().toUpperCase();
 
@@ -50,7 +50,9 @@ public class AddData extends RecordedCommand {
                 System.out.println("Library not found with ID: " + libraryID);
                 return;
             }
-            targetLibrary = foundLibrary.get();
+            currentLib = foundLibrary.get();
+        } else {
+            System.out.println("Using current library: " + currentLib.getName());
         }
         
         // Get ISBN
@@ -79,7 +81,7 @@ public class AddData extends RecordedCommand {
         }
         
         // Add the copy
-        if (targetLibrary.addCopy(isbn, acquisitionDate, acquisitionPrice)) {
+        if (currentLib.addCopy(isbn, acquisitionDate, acquisitionPrice)) {
             System.out.println("Book copy added successfully!");
             addUndoCommand(this);
             clearRedoList();
@@ -96,14 +98,20 @@ public class AddData extends RecordedCommand {
 
         System.out.println("=== Add Book Record ===");
         
-        // Get Library ID
-        System.out.print("Enter Library ID: ");
-        String libraryID = scanner.nextLine().trim();
-        
-        Optional<Library> targetLibrary = findLibraryByID(libraryID);
-        if (targetLibrary.isEmpty()) {
-            System.out.println("Library not found with ID: " + libraryID);
-            return;
+        // Get current library
+        Library currentLib = Main.getCurrentLibrary();
+        if (currentLib == null) {
+            System.out.print("Enter Library ID: ");
+            String libraryID = scanner.nextLine().trim();
+            
+            Optional<Library> foundLibrary = findLibraryByID(libraryID);
+            if (foundLibrary.isEmpty()) {
+                System.out.println("Library not found with ID: " + libraryID);
+                return;
+            }
+            currentLib = foundLibrary.get();
+        } else {
+            System.out.println("Using current library: " + currentLib.getName());
         }
         
         // Get ISBN
@@ -137,7 +145,7 @@ public class AddData extends RecordedCommand {
         }
         
         // Add the record
-        if (targetLibrary.get().addRecord(isbn, title, author, language, category, publishingYear)) {
+        if (currentLib.addRecord(isbn, title, author, language, category, publishingYear)) {
             System.out.println("Book record added successfully!");
             addUndoCommand(this);
             clearRedoList();

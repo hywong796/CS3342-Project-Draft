@@ -1,0 +1,112 @@
+L001|978-0-06-112008-4|To Kill a Mockingbird|Harper Lee|English|Fiction|1960|1|1|1|0
+L001|978-0-7432-7356-5|The Great Gatsby|F. Scott Fitzgerald|English|Fiction|1925|0|1|1|1
+L001|978-0-316-76948-0|The Catcher in the Rye|J.D. Salinger|English|Fiction|1951|0|1|1|1
+L001|978-0-14-118277-8|1984|George Orwell|English|Fiction|1949|0|2|2|2
+L001|978-0-14-017739-8|One Hundred Years of Solitude|Gabriel García Márquez|Spanish|Fiction|1967|0|2|2|2
+L001|978-0-8044-2957-1|Wuthering Heights|Emily Brontë|English|Fiction|1847|0|1|1|1
+L001|978-0-14-143951-8|Jane Eyre|Charlotte Brontë|English|Fiction|1847|0|2|2|2
+L001|978-0-14-043205-8|Moby Dick|Herman Melville|English|Fiction|1851|0|1|1|1
+L001|978-0-14-303943-3|Anna Karenina|Leo Tolstoy|Russian|Fiction|1877|0|2|2|2
+L001|978-0-14-043787-8|War and Peace|Leo Tolstoy|Russian|Fiction|1869|0|1|1|1
+L001|978-0-14-043943-8|Crime and Punishment|Fyodor Dostoevsky|Russian|Fiction|1866|0|2|2|2
+L001|978-0-14-044203-2|The Brothers Karamazov|Fyodor Dostoevsky|Russian|Fiction|1879|0|1|1|1
+L001|978-0-14-043951-3|Madame Bovary|Gustave Flaubert|French|Fiction|1856|0|1|1|1
+L001|978-0-14-044087-7|Les Misérables|Victor Hugo|French|Fiction|1862|0|3|3|3
+L001|978-0-14-044196-6|The Hunchback of Notre-Dame|Victor Hugo|French|Fiction|1831|0|1|1|1
+L001|978-0-06-085052-4|The Left Hand of Darkness|Ursula K. Le Guin|English|Science Fiction|1969|0|1|1|1
+L001|978-0-06-092997-9|Foundation|Isaac Asimov|English|Science Fiction|1951|1|3|3|2
+L002|978-0-14-043951-3|The Silmarillion|J.R.R. Tolkien|English|Fantasy|1977|0|1|1|1
+L002|978-0-06-112008-4|The Way of Kings|Brandon Sanderson|English|Fantasy|2010|0|2|2|2
+L002|978-0-14-303943-3|Sapiens|Yuval Noah Harari|English|Non-Fiction|2011|0|2|2|2
+L002|978-0-7432-7356-5|Thinking, Fast and Slow|Daniel Kahneman|English|Non-Fiction|2011|0|1|1|1
+L002|978-0-316-76948-0|Educated|Tara Westover|English|Non-Fiction|2018|0|3|3|3
+L003|978-0-14-043951-3|Meditations|Marcus Aurelius|Latin|Philosophy|170|0|1|1|1
+L003|978-0-06-112008-4|Being and Nothingness|Jean-Paul Sartre|French|Philosophy|1943|0|1|1|1
+L003|978-0-14-303943-3|Critique of Pure Reason|Immanuel Kant|German|Philosophy|1781|0|1|1|1
+L003|978-0-7432-7356-5|The Brothers Karamazov|Fyodor Dostoevsky|Russian|Philosophy|1879|0|1|1|1
+L003|978-0-316-76948-0|Thus Spoke Zarathustra|Friedrich Nietzsche|German|Philosophy|1883|0|2|2|2
+L004|978-0-14-043951-3|Guns, Germs, and Steel|Jared Diamond|English|History|1997|0|1|1|1
+L004|978-0-06-112008-4|The Decline and Fall of the Roman Empire|Edward Gibbon|English|History|1776|0|1|1|1
+L004|978-0-14-303943-3|A History of Ancient Egypt|Nicolas Grimal|English|History|1992|0|1|1|1
+L004|978-0-7432-7356-5|The History of the Peloponnesian War|Thucydides|English|History|400|0|2|2|2
+L004|978-0-316-76948-0|The American Civil War|Bruce Catton|English|History|1961|0|1|1|1
+L005|978-0-14-043951-3|In Cold Blood|Truman Capote|English|True Crime|1966|0|2|2|2
+L005|978-0-06-112008-4|The Killer Across the Table|John Douglas|English|True Crime|2018|0|1|1|1
+L005|978-0-14-303943-3|I'll Be Gone in the Dark|Michelle McNamara|English|True Crime|2018|0|1|1|1
+L005|978-0-7432-7356-5|The Devil in the White City|Erik Larson|English|True Crime|2003|0|2|2|2
+L005|978-0-316-76948-0|Killers of the Flower Moon|David Grann|English|True Crime|2017|0|1|1|1
+L006|978-0-14-043951-3|The Catcher in the Rye|J.D. Salinger|English|Fiction|1951|0|1|1|1
+L006|978-0-06-112008-4|Norwegian Wood|Haruki Murakami|Japanese|Fiction|1987|0|2|2|2
+L006|978-0-14-303943-3|The Wind-Up Bird Chronicle|Haruki Murakami|Japanese|Fiction|1994|0|1|1|1
+L006|978-0-7432-7356-5|Kafka on the Shore|Haruki Murakami|Japanese|Fiction|2002|0|2|2|2
+L006|978-0-316-76948-0|1Q84|Haruki Murakami|Japanese|Fiction|2009|0|1|1|1
+L007|978-0-14-043951-3|The Night Circus|Erin Morgenstern|English|Fantasy|2011|0|3|3|3
+L007|978-0-06-112008-4|Sorcerer|Erin Morgenstern|English|Fantasy|2020|0|1|1|1
+L007|978-0-14-303943-3|Rebecca|Daphne du Maurier|English|Fiction|1938|0|2|2|2
+L007|978-0-7432-7356-5|The Thirteenth Tale|Diane Setterfield|English|Fiction|2006|0|1|1|1
+L007|978-0-316-76948-0|The Shadow of the Wind|Carlos Ruiz Zafón|Spanish|Fiction|2001|0|1|1|1
+L008|978-0-14-043951-3|The Starless Sea|Erin Morgenstern|English|Fantasy|2019|0|2|2|2
+L008|978-0-06-112008-4|Circe|Madeline Miller|English|Fantasy|2018|0|1|1|1
+L008|978-0-14-303943-3|The Song of Achilles|Madeline Miller|English|Fantasy|2011|0|3|3|3
+L008|978-0-7432-7356-5|Ariadne|Jennifer Saint|English|Fantasy|2021|0|1|1|1
+L008|978-0-316-76948-0|Immortal|Tatiana de Rosnay|English|Fantasy|2019|0|2|2|2
+L009|978-0-14-043951-3|The Shadow of the Wind|Carlos Ruiz Zafón|Spanish|Fiction|2001|0|1|1|1
+L009|978-0-06-112008-4|The Invisible Guardian|Dolores Redondo|Spanish|Crime|2013|0|2|2|2
+L009|978-0-14-303943-3|Berserk|Dolores Redondo|Spanish|Crime|2014|0|1|1|1
+L009|978-0-7432-7356-5|Legacy|Dolores Redondo|Spanish|Crime|2016|0|1|1|1
+L009|978-0-316-76948-0|The Time in Between|María Dueñas|Spanish|Fiction|2009|0|2|2|2
+L010|978-0-14-043951-3|The Nightingale|Kristin Hannah|English|Fiction|2015|0|3|3|3
+L010|978-0-06-112008-4|The Great Alone|Kristin Hannah|English|Fiction|2018|0|1|1|1
+L010|978-0-14-303943-3|Winter Garden|Kristin Hannah|English|Fiction|2010|0|2|2|2
+L010|978-0-7432-7356-5|The Firekeeper's Daughter|Angeline Boulley|English|Mystery|2021|0|1|1|1
+L010|978-0-316-76948-0|The Vanishing Half|Brit Bennett|English|Fiction|2020|0|2|2|2
+L011|978-0-14-043951-3|Such a Pretty Smile|Kristi DeMeester|English|Horror|2020|0|1|1|1
+L011|978-0-06-112008-4|The Only Good Indians|Stephen Graham Jones|English|Horror|2020|0|1|1|1
+L011|978-0-14-303943-3|Ring Shout|P. Djèlí Clark|English|Horror|2020|0|1|1|1
+L011|978-0-7432-7356-5|Come Closer|Sara Gran|English|Horror|2003|0|2|2|2
+L011|978-0-316-76948-0|The Exorcist|William Peter Blatty|English|Horror|1971|0|1|1|1
+L012|978-0-14-043951-3|It|Stephen King|English|Horror|1986|0|2|2|2
+L012|978-0-06-112008-4|The Shining|Stephen King|English|Horror|1977|0|1|1|1
+L012|978-0-14-303943-3|The Stand|Stephen King|English|Horror|1978|0|1|1|1
+L012|978-0-7432-7356-5|Pet Sematary|Stephen King|English|Horror|1983|0|3|3|3
+L012|978-0-316-76948-0|Carrie|Stephen King|English|Horror|1974|0|1|1|1
+L013|978-0-14-043951-3|The Green Mile|Stephen King|English|Fiction|1996|0|2|2|2
+L013|978-0-06-112008-4|Misery|Stephen King|English|Thriller|1987|0|1|1|1
+L013|978-0-14-303943-3|Different Seasons|Stephen King|English|Fiction|1982|0|1|1|1
+L013|978-0-7432-7356-5|The Girl Who Loved Tom Gordon|Stephen King|English|Thriller|1999|0|2|2|2
+L013|978-0-316-76948-0|11/22/63|Stephen King|English|Science Fiction|2011|0|1|1|1
+L014|978-0-14-043951-3|Beloved|Toni Morrison|English|Fiction|1987|0|1|1|1
+L014|978-0-06-112008-4|Song of Solomon|Toni Morrison|English|Fiction|1977|0|1|1|1
+L014|978-0-14-303943-3|Sula|Toni Morrison|English|Fiction|1973|0|1|1|1
+L014|978-0-7432-7356-5|Paradise|Toni Morrison|English|Fiction|1998|0|2|2|2
+L014|978-0-316-76948-0|Home|Toni Morrison|English|Fiction|2012|0|1|1|1
+L015|978-0-14-043951-3|The Secret History|Donna Tartt|English|Mystery|1992|0|2|2|2
+L015|978-0-06-112008-4|The Little Friend|Donna Tartt|English|Mystery|2002|0|1|1|1
+L015|978-0-14-303943-3|The Goldfinch|Donna Tartt|English|Fiction|2013|0|1|1|1
+L015|978-0-7432-7356-5|Lonesome Dove|Larry McMurtry|English|Western|1985|0|3|3|3
+L015|978-0-316-76948-0|True Grit|Charles Portis|English|Western|1968|0|1|1|1
+L016|978-0-14-043951-3|Blood Meridian|Cormac McCarthy|English|Western|1985|0|1|1|1
+L016|978-0-06-112008-4|The Road|Cormac McCarthy|English|Post-Apocalyptic|2006|0|2|2|2
+L016|978-0-14-303943-3|No Country for Old Men|Cormac McCarthy|English|Crime|2005|0|1|1|1
+L016|978-0-7432-7356-5|The Crossing|Cormac McCarthy|English|Western|1994|0|1|1|1
+L016|978-0-316-76948-0|Cities of the Plain|Cormac McCarthy|English|Western|1998|0|1|1|1
+L017|978-0-14-043951-3|Infinite Jest|David Foster Wallace|English|Fiction|1996|0|1|1|1
+L017|978-0-06-112008-4|The Pale King|David Foster Wallace|English|Fiction|2011|0|1|1|1
+L017|978-0-14-303943-3|Brief Interviews with Hideous Men|David Foster Wallace|English|Short Stories|1999|0|2|2|2
+L017|978-0-7432-7356-5|A Supposedly Fun Thing|David Foster Wallace|English|Essays|1997|0|1|1|1
+L017|978-0-316-76948-0|Oblivion|David Foster Wallace|English|Short Stories|2004|0|1|1|1
+L018|978-0-14-043951-3|The Corrections|Jonathan Franzen|English|Fiction|2001|0|1|1|1
+L018|978-0-06-112008-4|Freedom|Jonathan Franzen|English|Fiction|2010|0|2|2|2
+L018|978-0-14-303943-3|Purity|Jonathan Franzen|English|Fiction|2015|0|1|1|1
+L018|978-0-7432-7356-5|The Discomfort Zone|Jonathan Franzen|English|Memoir|2006|0|1|1|1
+L018|978-0-316-76948-0|Strong Motion|Jonathan Franzen|English|Fiction|1992|0|1|1|1
+L019|978-0-14-043951-3|American Pastoral|Philip Roth|English|Fiction|1997|0|1|1|1
+L019|978-0-06-112008-4|The Plot Against America|Philip Roth|English|Alternate History|2004|0|2|2|2
+L019|978-0-14-303943-3|I Married a Communist|Philip Roth|English|Fiction|1998|0|1|1|1
+L019|978-0-7432-7356-5|The Human Stain|Philip Roth|English|Fiction|2000|0|1|1|1
+L019|978-0-316-76948-0|Portnoy's Complaint|Philip Roth|English|Fiction|1969|0|3|3|3
+L020|978-0-14-043951-3|Beloved|Toni Morrison|English|Fiction|1987|0|1|1|1
+L020|978-0-06-112008-4|The Remains of the Day|Kazuo Ishiguro|English|Fiction|1989|0|2|2|2
+L020|978-0-14-303943-3|Never Let Me Go|Kazuo Ishiguro|English|Science Fiction|2005|0|1|1|1
+L020|978-0-7432-7356-5|An Artist of the Floating World|Kazuo Ishiguro|English|Fiction|1986|0|1|1|1
+L020|978-0-316-76948-0|Klara and the Sun|Kazuo Ishiguro|English|Science Fiction|2021|0|2|2|2

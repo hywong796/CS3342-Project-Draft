@@ -234,6 +234,8 @@ public class BookRecord implements Comparable<BookRecord>, AccessibleRecord<Book
         out.append("Language: ").append(language).append("\n");
         out.append("Category: ").append(category).append("\n");
         out.append("Publishing Year: ").append(publishingYear).append("\n");
+        out.append("Total Copies: ").append(totalCopies).append("\n");
+        out.append("Available Copies: ").append(availableCopies).append("\n");
         return out.toString();
     }
 

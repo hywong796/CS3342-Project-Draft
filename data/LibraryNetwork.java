@@ -18,6 +18,10 @@ public class LibraryNetwork {
         return Libraries;
     }
 
+    public static void createInstance(ArrayList<Library> libraryCollection) {
+        Libraries = new ArrayList<>(libraryCollection);
+    }
+
     //addLibrary
     public boolean addLibrary (
         String libraryID, String name, String address, String email
@@ -55,8 +59,5 @@ public class LibraryNetwork {
         return Libraries.removeAll(librariesToRemove);
     }
 
-    //load data
-    
-    //store data
 }
  

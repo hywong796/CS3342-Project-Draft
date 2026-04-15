@@ -6,11 +6,14 @@ import java.util.*;
 
 import command.AddData;
 import command.BorrowCopy;
+import command.EditData;
 import command.ListingData;
 import command.RecordedCommand;
+import command.RemoveData;
 import command.ReturnCopy;
 import command.SearchingData;
 import command.SelectCurrent;
+import command.SortingData;
 
 public class Main {
     private static Library currentLibrary;
@@ -30,7 +33,13 @@ public class Main {
         boolean running = true;
         while (running) {
             System.out.print("If you are user, please type 1; Otherwise, please type 2: ");
-            int userCode = in.nextInt();
+            int userCode;
+            String userCodeLine = in.nextLine();
+            try {
+                userCode = Integer.parseInt(userCodeLine.trim());
+            } catch (NumberFormatException e) {
+                userCode = -1;
+            }
             System.out.println();
             if (!(userCode == 1 || userCode == 2)) {
                 System.out.println("Invalid user type, please type again");
@@ -48,10 +57,10 @@ public class Main {
                             (new AddData()).execute(commandParts);
                         }
                         case "EDIT" -> {
-                            continue;
+                            (new EditData()).execute(commandParts);
                         }
                         case "REMOVE" -> {
-                            continue;
+                            (new RemoveData()).execute(commandParts);
                         }
                         case "BORROW" -> {
                             (new BorrowCopy()).execute(commandParts);
@@ -63,7 +72,7 @@ public class Main {
                             (new SearchingData()).execute(commandParts);
                         }
                         case "SORT" -> {
-                            continue;
+                            (new SortingData()).execute(commandParts);
                         }
                         case "LIST" -> {
                             (new ListingData()).execute(commandParts);

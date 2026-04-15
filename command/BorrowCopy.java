@@ -15,7 +15,6 @@ import java.util.Scanner;
 public class BorrowCopy extends RecordedCommand {
     
     private static Scanner scanner = new Scanner(System.in);
-    private static Library targetLibrary = Main.getCurrentLibrary();
 
     @Override
     public void execute(String[] commandParts) {
@@ -39,7 +38,8 @@ public class BorrowCopy extends RecordedCommand {
 
         System.out.println("=== Borrow Book Copy ===");
         
-        // Get Library ID
+        // Get current library or prompt for Library ID
+        Library targetLibrary = Main.getCurrentLibrary();
         if (targetLibrary == null) {
             System.out.print("Enter Library ID: ");
             String libraryID = scanner.nextLine().trim().toUpperCase();
@@ -61,20 +61,20 @@ public class BorrowCopy extends RecordedCommand {
         System.out.print("Enter ISBN: ");
         String isbn = scanner.nextLine().trim();
         
-        // Search for available copies with this ISBN
-        List<BookCopy> availableCopies = Searching.searchMultiple(
+        // Search for copies with this ISBN
+        List<BookCopy> allCopies = Searching.searchMultiple(
             targetLibrary.getBookCopyCollection(),
             CopyFields.ISBN,
             isbn
         );
         
-        if (availableCopies.isEmpty()) {
+        if (allCopies.isEmpty()) {
             System.out.println("No copies found for ISBN: " + isbn);
             return;
         }
         
         // Filter for available copies only
-        List<BookCopy> availableForBorrow = availableCopies.stream()
+        List<BookCopy> availableForBorrow = allCopies.stream()
             .filter(copy -> BookCopy.Status.isAvailable(copy))
             .toList();
         
@@ -127,7 +127,8 @@ public class BorrowCopy extends RecordedCommand {
 
         System.out.println("=== Borrow Book Copy by Title/Author ===");
         
-        // Get Library ID
+        // Get current library or prompt for Library ID
+        Library targetLibrary = Main.getCurrentLibrary();
         if (targetLibrary == null) {
             System.out.print("Enter Library ID: ");
             String libraryID = scanner.nextLine().trim().toUpperCase();
@@ -139,6 +140,9 @@ public class BorrowCopy extends RecordedCommand {
             }
             targetLibrary = foundLibrary.get();
         }
+        
+        // Make a final reference for use in lambda
+        final Library library = targetLibrary;
         
         // Get search term
         System.out.print("Enter Title or Author name: ");
@@ -159,11 +163,11 @@ public class BorrowCopy extends RecordedCommand {
         }
         
         // Search for available copies matching the search term
-        List<BookCopy> foundCopies = targetLibrary.getBookCopyCollection().stream()
+        List<BookCopy> foundCopies = library.getBookCopyCollection().stream()
             .filter(copy -> {
                 // Find the corresponding record
                 Optional<data.BookRecord> record = Searching.searchSingle(
-                    targetLibrary.getBookRecordCollection(),
+                    library.getBookRecordCollection(),
                     data.BookRecord.RecordFields.ISBN,
                     copy.getIsbn()
                 );
@@ -192,7 +196,7 @@ public class BorrowCopy extends RecordedCommand {
         for (int i = 0; i < foundCopies.size(); i++) {
             BookCopy copy = foundCopies.get(i);
             Optional<data.BookRecord> record = Searching.searchSingle(
-                targetLibrary.getBookRecordCollection(),
+                library.getBookRecordCollection(),
                 data.BookRecord.RecordFields.ISBN,
                 copy.getIsbn()
             );
@@ -220,7 +224,7 @@ public class BorrowCopy extends RecordedCommand {
         BookCopy selectedCopy = foundCopies.get(copyIndex);
         
         // Borrow the copy
-        if (targetLibrary.borrowCopy(selectedCopy, borrowerID)) {
+        if (library.borrowCopy(selectedCopy, borrowerID)) {
             System.out.println("Book copy borrowed successfully!");
             addUndoCommand(this);
             clearRedoList();

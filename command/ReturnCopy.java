@@ -4,7 +4,6 @@ import main.Main;
 import data.Library;
 import data.Library.LibraryFields;
 import data.BookCopy;
-import data.BookCopy.CopyFields;
 import data.LibraryNetwork;
 import utilities.Searching;
 
@@ -15,23 +14,13 @@ import java.util.Scanner;
 public class ReturnCopy extends RecordedCommand {
     
     private static Scanner scanner = new Scanner(System.in);
-    private static Library targetLibrary = Main.getCurrentLibrary();
 
     @Override
     public void execute(String[] commandParts) {
-        if (commandParts.length < 2) {
-            System.out.println("Invalid command format. Usage: RETURN [BYISBN|BYSEARCHINGNAME]");
-            return;
-        }
-
-        switch (commandParts[1].toUpperCase()) {
-            case "BYISBN" -> returnCopyByIsbn();
-            case "BYSEARCHINGNAME" -> returnCopyBySearchingName();
-            default -> System.out.println("Invalid option. Please use BYISBN or BYSEARCHINGNAME");
-        }
+        returnCopyByBorrowerID();
     }
 
-    private void returnCopyByIsbn() {
+    private void returnCopyByBorrowerID() {
         if (LibraryNetwork.getInstance().isEmpty()) {
             System.out.println("No library exists!");
             return;
@@ -39,7 +28,8 @@ public class ReturnCopy extends RecordedCommand {
 
         System.out.println("=== Return Book Copy ===");
         
-        // Get Library ID
+        // Get current library or prompt for Library ID
+        Library targetLibrary = Main.getCurrentLibrary();
         if (targetLibrary == null) {
             System.out.print("Enter Library ID: ");
             String libraryID = scanner.nextLine().trim().toUpperCase();
@@ -52,146 +42,54 @@ public class ReturnCopy extends RecordedCommand {
             targetLibrary = foundLibrary.get();
         }
         
-        // Get ISBN
-        System.out.print("Enter ISBN: ");
-        String isbn = scanner.nextLine().trim();
+        // Get borrower ID
+        System.out.print("Enter Borrower ID: ");
+        String borrowerID = scanner.nextLine().trim().toUpperCase();
         
-        // Search for borrowed copies with this ISBN
-        List<BookCopy> borrowedCopies = Searching.searchMultiple(
-            targetLibrary.getBookCopyCollection(),
-            CopyFields.ISBN,
-            isbn
-        );
-        
-        if (borrowedCopies.isEmpty()) {
-            System.out.println("No copies found for ISBN: " + isbn);
+        if (borrowerID.isEmpty()) {
+            System.out.println("Borrower ID cannot be empty");
             return;
         }
         
-        // Filter for borrowed copies only
-        List<BookCopy> borrowedForReturn = borrowedCopies.stream()
-            .filter(copy -> BookCopy.Status.isBorrowed(copy))
+        // Search for borrowed copies by this borrower
+        List<BookCopy> borrowedByUser = targetLibrary.getBookCopyCollection().stream()
+            .filter(copy -> BookCopy.Status.isBorrowed(copy) && 
+                           copy.getBorrowerID() != null && 
+                           copy.getBorrowerID().equalsIgnoreCase(borrowerID))
             .toList();
         
-        if (borrowedForReturn.isEmpty()) {
-            System.out.println("No borrowed copies for ISBN: " + isbn);
+        if (borrowedByUser.isEmpty()) {
+            System.out.println("No borrowed copies found for Borrower ID: " + borrowerID);
             return;
         }
         
         // Display borrowed copies
-        System.out.println("Borrowed copies:");
-        for (int i = 0; i < borrowedForReturn.size(); i++) {
-            BookCopy copy = borrowedForReturn.get(i);
-            System.out.println((i + 1) + ". Copy ID: " + copy.getCopyID() + " | Borrower ID: " + copy.getBorrowerID());
-        }
-        
-        // Get copy selection
-        System.out.print("Select copy number: ");
-        int copyIndex;
-        try {
-            copyIndex = Integer.parseInt(scanner.nextLine().trim()) - 1;
-            if (copyIndex < 0 || copyIndex >= borrowedForReturn.size()) {
-                System.out.println("Invalid selection");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a valid number");
-            return;
-        }
-        
-        BookCopy selectedCopy = borrowedForReturn.get(copyIndex);
-        
-        // Return the copy
-        if (targetLibrary.returnCopy(selectedCopy)) {
-            System.out.println("Book copy returned successfully!");
-            addUndoCommand(this);
-            clearRedoList();
-        } else {
-            System.out.println("Failed to return book copy. Please check the details and try again.");
-        }
-    }
-
-    private void returnCopyBySearchingName() {
-        if (LibraryNetwork.getInstance().isEmpty()) {
-            System.out.println("No library exists!");
-            return;
-        }
-
-        System.out.println("=== Return Book Copy by Title/Author ===");
-        
-        // Get Library ID
-        if (targetLibrary == null) {
-            System.out.print("Enter Library ID: ");
-            String libraryID = scanner.nextLine().trim().toUpperCase();
-
-            Optional<Library> foundLibrary = Searching.searchSingle(LibraryNetwork.getInstance(), LibraryFields.LIBRARY_ID, libraryID);
-            if (foundLibrary.isEmpty()) {
-                System.out.println("Library not found with ID: " + libraryID);
-                return;
-            }
-            targetLibrary = foundLibrary.get();
-        }
-        
-        // Get search term
-        System.out.print("Enter Title or Author name: ");
-        String searchTerm = scanner.nextLine().trim();
-        
-        if (searchTerm.isEmpty()) {
-            System.out.println("Search term cannot be empty");
-            return;
-        }
-        
-        // Search for borrowed copies matching the search term
-        List<BookCopy> foundCopies = targetLibrary.getBookCopyCollection().stream()
-            .filter(copy -> {
-                // Find the corresponding record
-                Optional<data.BookRecord> record = Searching.searchSingle(
-                    targetLibrary.getBookRecordCollection(),
-                    data.BookRecord.RecordFields.ISBN,
-                    copy.getIsbn()
-                );
-                
-                if (record.isEmpty()) {
-                    return false;
-                }
-                
-                // Check if title or author matches
-                String title = (String) record.get().getField(data.BookRecord.RecordFields.TITLE);
-                String author = (String) record.get().getField(data.BookRecord.RecordFields.AUTHOR);
-                
-                return (title != null && title.toLowerCase().contains(searchTerm.toLowerCase())) ||
-                       (author != null && author.toLowerCase().contains(searchTerm.toLowerCase()));
-            })
-            .filter(copy -> BookCopy.Status.isBorrowed(copy))
-            .toList();
-        
-        if (foundCopies.isEmpty()) {
-            System.out.println("No borrowed copies found matching: " + searchTerm);
-            return;
-        }
-        
-        // Display found copies
-        System.out.println("Borrowed copies found:");
-        for (int i = 0; i < foundCopies.size(); i++) {
-            BookCopy copy = foundCopies.get(i);
+        System.out.println("\n# Borrowed Books for " + borrowerID + " (" + borrowedByUser.size() + " total):");
+        for (int i = 0; i < borrowedByUser.size(); i++) {
+            BookCopy copy = borrowedByUser.get(i);
+            
+            // Get book record details
             Optional<data.BookRecord> record = Searching.searchSingle(
                 targetLibrary.getBookRecordCollection(),
                 data.BookRecord.RecordFields.ISBN,
                 copy.getIsbn()
             );
             
+            String title = "Unknown Title";
             if (record.isPresent()) {
-                String title = (String) record.get().getField(data.BookRecord.RecordFields.TITLE);
-                System.out.println((i + 1) + ". Title: " + title + " | Copy ID: " + copy.getCopyID() + " | Borrower: " + copy.getBorrowerID());
+                title = (String) record.get().getField(data.BookRecord.RecordFields.TITLE);
             }
+            
+            System.out.println("- [" + (i + 1) + "] " + title + " | Copy ID: " + copy.getCopyID() + 
+                             " | Last Borrowed: " + copy.getLastBorrowingDate());
         }
         
         // Get copy selection
-        System.out.print("Select copy number: ");
+        System.out.print("\nSelect copy number to return: ");
         int copyIndex;
         try {
             copyIndex = Integer.parseInt(scanner.nextLine().trim()) - 1;
-            if (copyIndex < 0 || copyIndex >= foundCopies.size()) {
+            if (copyIndex < 0 || copyIndex >= borrowedByUser.size()) {
                 System.out.println("Invalid selection");
                 return;
             }
@@ -200,15 +98,15 @@ public class ReturnCopy extends RecordedCommand {
             return;
         }
         
-        BookCopy selectedCopy = foundCopies.get(copyIndex);
+        BookCopy selectedCopy = borrowedByUser.get(copyIndex);
         
         // Return the copy
         if (targetLibrary.returnCopy(selectedCopy)) {
-            System.out.println("Book copy returned successfully!");
+            System.out.println("✓ Book copy returned successfully!");
             addUndoCommand(this);
             clearRedoList();
         } else {
-            System.out.println("Failed to return book copy. Please check the details and try again.");
+            System.out.println("✗ Failed to return book copy. Please check the details and try again.");
         }
     }
 

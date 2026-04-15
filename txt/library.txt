@@ -1,1 +1,20 @@
-001|central library|clib@gov.sth|clib@gov.sth|clib@gov.sth
+L001|Central Library|123 Main Street|555-0001|central@library.org
+L002|Downtown Branch|456 Oak Avenue|555-0002|downtown@library.org
+L003|Westside Library|789 Pine Road|555-0003|westside@library.org
+L004|Eastside Branch|321 Elm Street|555-0004|eastside@library.org
+L005|North Library|654 Maple Lane|555-0005|north@library.org
+L006|South Branch|987 Cedar Drive|555-0006|south@library.org
+L007|University Library|111 Campus Way|555-0007|university@library.org
+L008|Community Center Library|222 Park Street|555-0008|community@library.org
+L009|City Hall Library|333 Government Avenue|555-0009|cityhall@library.org
+L010|Memorial Library|444 History Road|555-0010|memorial@library.org
+L011|Innovation Hub Library|555 Tech Street|555-0011|innovation@library.org
+L012|Cultural Center Library|666 Arts Boulevard|555-0012|cultural@library.org
+L013|Children's Library|777 Youth Lane|555-0013|children@library.org
+L014|Senior Center Library|888 Elder Avenue|555-0014|senior@library.org
+L015|Medical Library|999 Health Street|555-0015|medical@library.org
+L016|Legal Library|1010 Justice Way|555-0016|legal@library.org
+L017|Business Library|1111 Commerce Street|555-0017|business@library.org
+L018|Science Library|1212 Research Avenue|555-0018|science@library.org
+L019|History Library|1313 Heritage Drive|555-0019|history@library.org
+L020|Art Library|1414 Gallery Street|555-0020|art@library.org
