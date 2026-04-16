@@ -27,7 +27,10 @@ public abstract class RecordedCommand implements Command{
     //undo
     public static void undoOneCommand() {
         if (!undoList.isEmpty()) {
-            undoList.remove(undoList.size()-1).undoMe();
+            RecordedCommand command = undoList.remove(undoList.size() - 1);
+            command.undoMe();
+            redoList.add(command);
+            
         } else {
             System.out.println("Nothing to undo");
         }
@@ -36,7 +39,9 @@ public abstract class RecordedCommand implements Command{
     //redo
     public static void redoOneCommand() {
         if (!redoList.isEmpty()) {
-            redoList.remove(redoList.size()-1).redoMe();
+            RecordedCommand command = redoList.remove(redoList.size() - 1);
+            command.redoMe();
+            undoList.add(command);
         } else {
             System.out.println("Nothing to redo");
         }

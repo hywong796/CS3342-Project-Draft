@@ -212,7 +212,8 @@ public class BookRecord implements Comparable<BookRecord>, AccessibleRecord<Book
         availableCopies++;
     }
     public void removeCopy() {
-        totalCopies--;
+        if (totalCopies > 0) totalCopies--;
+        if (availableCopies > 0) availableCopies--;
         availableCopies--;
     }
     public void borrowCopy() {
@@ -221,6 +222,10 @@ public class BookRecord implements Comparable<BookRecord>, AccessibleRecord<Book
     }
     public void finishCopyProcessing() {
         availableCopies++;
+    }
+    public void undoBorrowCopy() {
+        availableCopies++;
+        borrowCount--;
     }
 
     //toString()

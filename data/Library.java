@@ -186,7 +186,6 @@ public class Library implements Comparable<Library>, AccessibleRecord<Library.Li
             searchMultiple(bookCopyCollection, CopyFields.ISBN, targetRecord.getIsbn());
 
         if (!CopiesToRemove.isEmpty()) bookCopyCollection.removeAll(CopiesToRemove);
-
         return bookRecordCollection.remove(targetRecord);
     }
 

@@ -35,6 +35,7 @@ public class Main {
             System.out.print("If you are user, please type 1; Otherwise, please type 2: ");
             int userCode;
             String userCodeLine = in.nextLine();
+            in.nextLine();
             try {
                 userCode = Integer.parseInt(userCodeLine.trim());
             } catch (NumberFormatException e) {

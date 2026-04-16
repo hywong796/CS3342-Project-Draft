@@ -224,6 +224,19 @@ public class BookCopy implements Comparable<BookCopy>, AccessibleRecord<BookCopy
         borrowerID = null;
     }
 
+    //undo&redo
+    public void undoBorrow(LocalDate previousLastBorrowingDate) {
+        status = Status.AVAILABLE;
+        borrowerID = null;
+        lastBorrowingDate = previousLastBorrowingDate;
+        borrowCounter--;
+    }
+
+    public void undoReturn(String previousBorrowerID) {
+        status     = Status.BORROWED;
+        borrowerID = previousBorrowerID;
+    }
+
     //toString()
     @Override
     public String toString() {

@@ -46,41 +46,85 @@
       <section id="admin-portal" class="hidden">
         <section class="panel">
           <h3>Admin Operations</h3>
-          <div class="grid two-col">
-            <form id="record-form" class="panel form-grid mini">
-              <h4>Add Book Record</h4>
-              <label>ISBN<input id="record-isbn" type="text" required /></label>
-              <label>Title<input id="record-title" type="text" required /></label>
-              <label>Author<input id="record-author" type="text" required /></label>
-              <label>Language<input id="record-language" type="text" value="English" required /></label>
-              <label>Category<input id="record-category" type="text" required /></label>
-              <label>Publishing Year<input id="record-year" type="number" min="1800" max="2100" value="2024" required /></label>
-              <button class="btn btn-primary" type="submit">Create Record</button>
-            </form>
-
-            <form id="copy-form" class="panel form-grid mini">
-              <h4>Add Book Copy</h4>
-              <label>ISBN<input id="copy-isbn" type="text" required /></label>
-              <label>Acquisition Date<input id="copy-date" type="date" required /></label>
-              <label>Price<input id="copy-price" type="number" min="0" step="0.01" value="10.00" required /></label>
-              <button class="btn btn-primary" type="submit">Add Copy</button>
-            </form>
+          <div class="admin-actions">
+            <button class="btn btn-primary" type="button" data-admin-panel-open="admin-panel-add">Add Data</button>
+            <button class="btn btn-secondary" type="button" data-admin-panel-open="admin-panel-edit">Edit Data</button>
+            <button class="btn btn-danger" type="button" data-admin-panel-open="admin-panel-remove">Remove Data</button>
+            <button id="publish-button" class="btn btn-secondary" type="button">Update Database</button>
+            <button id="undo-button" class="btn btn-warning" type="button">Undo</button>
+            <button id="redo-button" class="btn btn-warning" type="button">Redo</button>
           </div>
+
+          <section id="admin-panel-add" class="admin-panel hidden" aria-label="Add Data">
+            <div class="grid two-col">
+              <form id="record-form" class="panel form-grid mini">
+                <h4>Add Book Record</h4>
+                <label>ISBN<input id="record-isbn" type="text" required /></label>
+                <label>Title<input id="record-title" type="text" required /></label>
+                <label>Author<input id="record-author" type="text" required /></label>
+                <label>Language<input id="record-language" type="text" value="English" required /></label>
+                <label>Category<input id="record-category" type="text" required /></label>
+                <label>Publishing Year<input id="record-year" type="number" min="1800" max="2100" value="2024" required /></label>
+                <button class="btn btn-primary" type="submit">Submit</button>
+              </form>
+
+              <form id="copy-form" class="panel form-grid mini">
+                <h4>Add Book Copy</h4>
+                <label>ISBN (type or select from Book Records)<input id="add-copy-isbn" type="text" required /></label>
+                <label>Acquisition Date<input id="add-copy-date" type="date" required /></label>
+                <button class="btn btn-primary" type="submit">Submit</button>
+              </form>
+            </div>
+          </section>
+
+          <section id="admin-panel-edit" class="admin-panel hidden" aria-label="Edit Data">
+            <div class="grid two-col">
+              <form id="edit-record-form" class="panel form-grid mini">
+                <h4>Edit Book Record</h4>
+                <label>Selected ISBN<input id="edit-record-isbn" type="text" placeholder="Type ISBN or click record row" /></label>
+                <label>Title<input id="edit-record-title" type="text" /></label>
+                <label>Author<input id="edit-record-author" type="text" /></label>
+                <label>Language<input id="edit-record-language" type="text" /></label>
+                <label>Category<input id="edit-record-category" type="text" /></label>
+                <label>Publishing Year<input id="edit-record-year" type="number" min="1800" max="2100" /></label>
+                <label>Status<select id="edit-record-status">
+                  <option value="">(no change)</option>
+                  <option value="AVAILABLE">Available</option>
+                  <option value="UNAVAILABLE">Unavailable</option>
+                </select></label>
+                <button class="btn btn-secondary" type="submit">Submit</button>
+              </form>
+
+              <div class="panel form-grid mini">
+                <h4>How to edit</h4>
+                <p class="helper">Use the search box, then click a row in <b>Book Records</b> to select it. The selected ISBN will appear on the left.</p>
+              </div>
+            </div>
+          </section>
+
+          <section id="admin-panel-remove" class="admin-panel hidden" aria-label="Remove Data">
+            <div class="grid two-col">
+              <form id="remove-record-form" class="panel form-grid mini">
+                <h4>Remove Book Record</h4>
+                <label>Selected ISBN<input id="remove-record-isbn" type="text" placeholder="Type ISBN or click record row" /></label>
+                <button class="btn btn-danger" type="submit">Submit</button>
+              </form>
+              <form id="remove-copy-form" class="panel form-grid mini">
+                <h4>Remove Book Copy</h4>
+                <label>Copy ID (type or select from Book Copies)<input id="remove-copy-id" type="text" placeholder="Type Copy ID or click copy row" /></label>
+                <button class="btn btn-danger" type="submit">Submit</button>
+              </form>
+            </div>
+          </section>
         </section>
 
         <section class="panel">
-          <h3>Circulation Control</h3>
-          <div class="grid two-col">
-            <div class="form-grid mini">
-              <label>Copy ID<input id="borrow-copy-id" type="text" /></label>
-              <label>Borrower ID<input id="borrower-id" type="text" /></label>
-              <button id="borrow-button" class="btn btn-primary" type="button">Borrow Copy</button>
-              <button id="return-button" class="btn btn-secondary" type="button">Return Copy</button>
-            </div>
-            <div class="form-grid mini">
-              <label>Search<input id="search-input" type="text" placeholder="ISBN, title, author" /></label>
+          <h3>Catalog Control</h3>
+          <div class="form-grid mini">
+            <label>Search Catalog<input id="search-input" type="text" placeholder="ISBN, title, author" /></label>
+            <div class="button-group">
               <button id="search-button" class="btn btn-secondary" type="button">Search</button>
-              <button id="refresh-button" class="btn btn-secondary" type="button">Refresh</button>
+              <button id="refresh-button" class="btn btn-secondary" type="button">Show All</button>
               <button id="export-button" class="btn btn-secondary" type="button">Export Snapshot</button>
             </div>
           </div>
@@ -89,23 +133,28 @@
 
       <section id="user-portal" class="hidden">
         <section class="panel">
-          <h3>User Actions</h3>
-          <div class="grid two-col">
-            <div class="form-grid mini">
-              <label>Search Catalog<input id="user-search-input" type="text" placeholder="ISBN, title, author" /></label>
+          <h3>Homepage</h3>
+          <div class="form-grid mini">
+            <label>Search Catalog<input id="user-search-input" type="text" placeholder="ISBN, title, author" /></label>
+            <div class="button-group">
               <button id="user-search-button" class="btn btn-secondary" type="button">Search</button>
-            </div>
-            <div class="form-grid mini">
-              <label>User ID<input id="user-id" type="text" placeholder="Your ID" /></label>
-              <label>Copy ID<input id="user-copy-id" type="text" placeholder="Copy to borrow" /></label>
-              <button id="user-borrow-button" class="btn btn-primary" type="button">Request Borrow</button>
-              <button id="user-renew-button" class="btn btn-secondary" type="button">Request Renew</button>
+              <button id="user-refresh-button" class="btn btn-secondary" type="button">Show All</button>
             </div>
           </div>
         </section>
+
+        <section class="panel">
+          <h3>Book Catalog</h3>
+          <div id="user-book-list" class="card-grid"></div>
+        </section>
+
+        <section class="panel">
+          <h3>My Inventory</h3>
+          <div id="user-inventory-list" class="inventory-list"></div>
+        </section>
       </section>
 
-      <section class="panel">
+      <section id="admin-records-panel" class="panel">
         <h3>Book Records</h3>
         <div class="table-wrap">
           <table id="record-table">
@@ -115,11 +164,11 @@
         </div>
       </section>
 
-      <section class="panel">
+      <section id="admin-copies-panel" class="panel">
         <h3>Book Copies</h3>
         <div class="table-wrap">
           <table id="copy-table">
-            <thead><tr><th>Copy ID</th><th>ISBN</th><th>Date</th><th>Price</th><th>Status</th><th>Borrower</th></tr></thead>
+            <thead><tr><th>Copy ID</th><th>ISBN</th><th>Date</th><th>Status</th><th>Borrower</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
